@@ -16,7 +16,6 @@ ConfigRouter.get('/directoryRoot', function (req, res) {
 ConfigRouter.post('/directoryRoot', function (req, res) {
     var directoryRoot = req.body.directoryRoot;
     configService.setDirectoryRoot(directoryRoot);
-    formationService.prepareFormations(directoryRoot);
     var data = {
         directoryRoot: directoryRoot
     };

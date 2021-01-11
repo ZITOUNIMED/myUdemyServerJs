@@ -63,10 +63,13 @@ var FormationService = /** @class */ (function () {
     };
     FormationService.prototype.prepareFormations = function (directoryRoot) {
         var _this = this;
+        var formations = this.getAllFormations();
+        var names = formations.map(function (node) { return node.name; });
         return rxjs_1.from(readdir(directoryRoot))
             .pipe(operators_1.map(function (files) {
             return files
                 .filter(function (file) { return fs.lstatSync(path.resolve(directoryRoot, file)).isDirectory(); })
+                .filter(function (file) { return names.indexOf(file) < 0; })
                 .map(function (file) {
                 return {
                     id: ++_this.IDS,
@@ -74,21 +77,25 @@ var FormationService = /** @class */ (function () {
                     children: []
                 };
             });
-        })).subscribe(function (formations) {
-            console.log(formations);
-            _this.saveNewListFormations(formations);
-        });
+        }), operators_1.map(function (list) {
+            formations.push.apply(formations, list);
+            var obj = {};
+            formations.forEach(function (formation) {
+                if (formation) {
+                    formation.children = _this.sortChildren(formation.children);
+                    formation.children.forEach(function (child) {
+                        child.children = _this.sortChildren(child.children);
+                    });
+                }
+                obj[formation.name] = formation;
+            });
+            _this.saveFormationsMap(obj);
+            return formations;
+        }));
     };
     FormationService.prototype.getAllFormations = function () {
         var obj = this.getFormationsMap();
         return Object.values(obj);
-    };
-    FormationService.prototype.saveNewListFormations = function (formations) {
-        var obj = {};
-        formations.forEach(function (formation) {
-            obj[formation.name] = formation;
-        });
-        this.saveFormationsMap(obj);
     };
     FormationService.prototype.saveFormation = function (name, formation) {
         var obj = this.getFormationsMap();
@@ -99,13 +106,8 @@ var FormationService = /** @class */ (function () {
         this.saveFormation(name, undefined);
     };
     FormationService.prototype.getFormation = function (name) {
-        var _this = this;
         var obj = this.getFormationsMap();
         var formation = obj[name];
-        formation.children = this.sortChildren(formation.children);
-        formation.children.forEach(function (child) {
-            child.children = _this.sortChildren(child.children);
-        });
         return formation;
     };
     FormationService.prototype.sortChildren = function (children) {

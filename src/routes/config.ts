@@ -22,8 +22,6 @@ ConfigRouter.post('/directoryRoot', (req, res) => {
 
     configService.setDirectoryRoot(directoryRoot);
 
-    formationService.prepareFormations(directoryRoot);
-
     const data: ConfigToModel = {
         directoryRoot: directoryRoot
     };

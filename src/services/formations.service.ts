@@ -63,10 +63,14 @@ export class FormationService {
     }
     
     prepareFormations(directoryRoot: any) {
+      const formations = this.getAllFormations();
+      const names = formations.map(node => node.name);
+
         return from(readdir(directoryRoot))
         .pipe(map((files: string[]) => {
             return files
             .filter(file => fs.lstatSync(path.resolve(directoryRoot, file)).isDirectory())
+            .filter(file => names.indexOf(file)<0)
             .map(file => {
 
               return <NodeModel> {
@@ -76,23 +80,29 @@ export class FormationService {
               }
             });
           }),
-        ).subscribe(formations => {
-            console.log(formations);
-            this.saveNewListFormations(formations);
-        });
+          map(list => {
+            formations.push(...list);
+            const obj = {};
+            formations.forEach(formation => {
+              if(formation){
+                formation.children = this.sortChildren(formation.children);
+      
+                formation.children.forEach(child => {
+                  child.children = this.sortChildren(child.children);
+                });
+              }
+              obj[formation.name] = formation;
+            });
+            this.saveFormationsMap(obj);
+
+            return formations;
+          })
+        );
     }
 
     getAllFormations(): NodeModel[]{
         const obj = this.getFormationsMap();
         return Object.values(obj);
-    }
-
-    saveNewListFormations(formations: NodeModel[]){
-        const obj = {};
-        formations.forEach(formation => {
-            obj[formation.name] = formation;
-        });
-        this.saveFormationsMap(obj);
     }
 
     saveFormation(name, formation: NodeModel){
@@ -108,12 +118,7 @@ export class FormationService {
     getFormation(name: string): NodeModel{
         const obj = this.getFormationsMap();
         const formation = obj[name];
-
-        formation.children = this.sortChildren(formation.children);
-
-        formation.children.forEach(child => {
-          child.children = this.sortChildren(child.children);
-        });
+        
         return formation;
     }
 

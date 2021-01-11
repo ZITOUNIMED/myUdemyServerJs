@@ -7,7 +7,7 @@ var FormationRouter = express.Router();
 var IDS = 0;
 var configService = new config_service_1.ConfigService();
 var formationService = new formations_service_1.FormationService();
-FormationRouter.get('/:formationName', function (req, res) {
+FormationRouter.get('/findByName/:formationName', function (req, res) {
     var formationName = req.params.formationName;
     var formation = formationService.getFormation(formationName);
     res.json(formation);
@@ -15,6 +15,12 @@ FormationRouter.get('/:formationName', function (req, res) {
 FormationRouter.get('/', function (req, res) {
     var formations = formationService.getAllFormations();
     res.send(formations);
+});
+FormationRouter.get('/prepareFormations', function (req, res) {
+    var directoryRoot = configService.getDirectoryRoot();
+    formationService.prepareFormations(directoryRoot).subscribe(function (formations) {
+        res.send(formations);
+    });
 });
 FormationRouter.get('/initOrReset/:formationName', function (req, res) {
     var formationName = req.params.formationName;

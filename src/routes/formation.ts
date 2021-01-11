@@ -10,7 +10,7 @@ const configService = new ConfigService();
 
 const formationService = new FormationService();
 
-FormationRouter.get('/:formationName', (req, res) => {
+FormationRouter.get('/findByName/:formationName', (req, res) => {
   const formationName = req.params.formationName;
   const formation = formationService.getFormation(formationName);
   res.json(formation);
@@ -19,6 +19,14 @@ FormationRouter.get('/:formationName', (req, res) => {
 FormationRouter.get('/', (req, res) => {
     const formations = formationService.getAllFormations();
     res.send(formations);
+});
+
+FormationRouter.get('/prepareFormations', (req, res) => {
+  const directoryRoot = configService.getDirectoryRoot();
+
+  formationService.prepareFormations(directoryRoot).subscribe(formations => {
+    res.send(formations);
+  });
 });
 
 FormationRouter.get('/initOrReset/:formationName', (req, res) => {
