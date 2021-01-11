@@ -11,7 +11,6 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConfigService = void 0;
 var fs = require('fs');
 var ConfigService = /** @class */ (function () {
     function ConfigService() {
@@ -31,4 +30,5 @@ var ConfigService = /** @class */ (function () {
     };
     return ConfigService;
 }());
-exports.ConfigService = ConfigService;
+var configService = new ConfigService();
+exports.default = configService;

@@ -1,4 +1,4 @@
-import { ConfigService } from "../services/config.service";
+import configService from "../services/config.service";
 
 const express = require('express');
 
@@ -7,7 +7,6 @@ const VideosRouter = express.Router();
 const fs = require('fs');
 const path = require('path');
 
-const configService = new ConfigService();
 const videoConfig = new Map<string, string>();
 
 VideosRouter.get('/:videoKey', (req, res) => {

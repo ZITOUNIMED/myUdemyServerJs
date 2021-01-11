@@ -1,14 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var config_service_1 = require("../services/config.service");
+var config_service_1 = __importDefault(require("../services/config.service"));
 var express = require('express');
 var VideosRouter = express.Router();
 var fs = require('fs');
 var path = require('path');
-var configService = new config_service_1.ConfigService();
 var videoConfig = new Map();
 VideosRouter.get('/:videoKey', function (req, res) {
-    var directoryRoot = configService.getDirectoryRoot();
+    var directoryRoot = config_service_1.default.getDirectoryRoot();
     var videoKey = req.params.videoKey;
     var fileName = videoConfig.get(videoKey);
     if (fileName) {

@@ -10,6 +10,7 @@ var index_1 = __importDefault(require("./routes/index"));
 var videos_1 = __importDefault(require("./routes/videos"));
 var formation_1 = __importDefault(require("./routes/formation"));
 var config_1 = __importDefault(require("./routes/config"));
+var files_1 = __importDefault(require("./routes/files"));
 var app = express();
 var port = 3000;
 app.use(bodyParser.json());
@@ -28,6 +29,7 @@ app.use('/', index_1.default);
 app.use('/videos', videos_1.default);
 app.use('/formations', formation_1.default);
 app.use('/config', config_1.default);
+app.use('/files', files_1.default);
 app.listen(port, function () {
     console.log("I'm listenning on port: " + port + ".");
 });

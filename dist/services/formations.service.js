@@ -11,7 +11,6 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FormationService = void 0;
 var fs = require('fs');
 var path = require('path');
 var rxjs_1 = require("rxjs");
@@ -131,4 +130,5 @@ var FormationService = /** @class */ (function () {
     };
     return FormationService;
 }());
-exports.FormationService = FormationService;
+var formationService = new FormationService();
+exports.default = formationService;

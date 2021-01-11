@@ -2,7 +2,7 @@ import { ConfigToModel } from "../models/config.to.model";
 
 const fs = require('fs');
 
-export class ConfigService {
+class ConfigService {
     private getConfig(): ConfigToModel {
         const dataStr = fs.readFileSync('./assets/config.json');
         const config = JSON.parse(dataStr);
@@ -24,3 +24,6 @@ export class ConfigService {
         fs.writeFileSync('./assets/config.json', configStr);
     }
 }
+
+const configService = new ConfigService();
+export default configService;

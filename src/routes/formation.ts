@@ -1,14 +1,10 @@
 import express = require('express');
-
-import { ConfigService } from '../services/config.service';
-import { FormationService } from '../services/formations.service';
+import configService from '../services/config.service';
+import formationService from '../services/formations.service';
 
 const FormationRouter = express.Router();
 
 let IDS = 0;
-const configService = new ConfigService();
-
-const formationService = new FormationService();
 
 FormationRouter.get('/findByName/:formationName', (req, res) => {
   const formationName = req.params.formationName;

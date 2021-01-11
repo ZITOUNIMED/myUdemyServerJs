@@ -1,13 +1,9 @@
 import { ConfigToModel } from "../models/config.to.model";
-import { ConfigService } from "../services/config.service";
-import { FormationService } from "../services/formations.service";
+import configService from "../services/config.service";
 
 const express = require('express');
 
 const ConfigRouter = express.Router();
-
-const configService = new ConfigService();
-const formationService = new FormationService();
 
 ConfigRouter.get('/directoryRoot', (req, res) => {
     const directoryRoot = configService.getDirectoryRoot();

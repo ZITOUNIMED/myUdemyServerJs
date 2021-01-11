@@ -6,6 +6,7 @@ import IndexRouter from './routes/index';
 import VideosRouter from './routes/videos';
 import FormationRouter from './routes/formation';
 import ConfigRouter from './routes/config';
+import filesRouter from './routes/files';
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/', IndexRouter);
 app.use('/videos', VideosRouter);
 app.use('/formations', FormationRouter);
 app.use('/config', ConfigRouter);
+app.use('/files', filesRouter);
 
 app.listen(port, () => {
     console.log(`I'm listenning on port: ${port}.`);

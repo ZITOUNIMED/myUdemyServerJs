@@ -1,13 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var config_service_1 = require("../services/config.service");
-var formations_service_1 = require("../services/formations.service");
+var config_service_1 = __importDefault(require("../services/config.service"));
 var express = require('express');
 var ConfigRouter = express.Router();
-var configService = new config_service_1.ConfigService();
-var formationService = new formations_service_1.FormationService();
 ConfigRouter.get('/directoryRoot', function (req, res) {
-    var directoryRoot = configService.getDirectoryRoot();
+    var directoryRoot = config_service_1.default.getDirectoryRoot();
     var data = {
         directoryRoot: directoryRoot
     };
@@ -15,7 +15,7 @@ ConfigRouter.get('/directoryRoot', function (req, res) {
 });
 ConfigRouter.post('/directoryRoot', function (req, res) {
     var directoryRoot = req.body.directoryRoot;
-    configService.setDirectoryRoot(directoryRoot);
+    config_service_1.default.setDirectoryRoot(directoryRoot);
     var data = {
         directoryRoot: directoryRoot
     };

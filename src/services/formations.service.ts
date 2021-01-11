@@ -8,7 +8,7 @@ import { concatAll, map, reduce } from 'rxjs/operators';
 const {promisify } = require('util');
 const readdir = promisify(fs.readdir);
 
-export class FormationService {
+class FormationService {
     private IDS = 0;
 
     loadFormation(formationName: string, directoryRoot: string): Observable<NodeModel>{
@@ -144,3 +144,6 @@ export class FormationService {
         fs.writeFileSync('./assets/formations.json', str);
     }
 }
+
+const formationService = new FormationService();
+export default formationService;
